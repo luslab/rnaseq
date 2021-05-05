@@ -55,10 +55,10 @@ log.info Utils.dashedLine(params.monochrome_logs)
 Workflow.validateMainParams(workflow, params, json_schema, log)
 
 ////////////////////////////////////////////////////
-/* --           RUN MAIN WORKFLOW              -- */
+/* --        NAMED PIPELINE WORKFLOW           -- */
 ////////////////////////////////////////////////////
 
-workflow {
+workflow NFCORE_RNASEQ {
     
     /*
      * WORKFLOW: Get SRA run information for public database ids, download and md5sum check FastQ files, auto-create samplesheet
@@ -74,6 +74,18 @@ workflow {
         include { RNASEQ } from './workflows/rnaseq' addParams( summary_params: summary_params )
         RNASEQ ()
     }
+}
+
+////////////////////////////////////////////////////
+/* --           RUN ALL WORKFLOWS              -- */
+////////////////////////////////////////////////////
+
+/*
+ * WORKFLOW: Execute a single named workflow for the pipeline
+ * See: https://github.com/nf-core/rnaseq/issues/619
+ */
+workflow {
+    NFCORE_RNASEQ ()
 }
 
 ////////////////////////////////////////////////////
